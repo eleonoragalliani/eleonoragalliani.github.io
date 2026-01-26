@@ -1,0 +1,241 @@
+/* ===== HOME ===== */
+
+:root{
+  --card-size: min(50vw, 65vh);
+}
+
+body.home{
+  overflow: hidden;
+}
+
+.home-main{
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 100svh;
+}
+
+/* HERO */
+.hero{
+  height: calc(100svh - var(--card-size));
+  padding: 10px 20px 0; /* top | sides | bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title{
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.hero-subtitle{
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.rail-header{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--card-size); /* 👈 si appoggia sopra la rail */
+  padding: 14px 20px;       /* padding FISSO */
+  pointer-events: none;     /* non interferisce con scroll rail */
+}
+
+.rail-title{
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Rail */
+.rail{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--card-size);
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  overflow-x: scroll;
+  scroll-behavior: auto;
+  padding-left: var(--peek, 0px);
+  scroll-padding-left: var(--peek, 0px);
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.rail.is-visible{ opacity: 1; }
+
+/* Full-bleed horizontal track */
+.rail-track{
+  display: flex;
+  gap: 0;
+  padding-left: var(--peek);
+  scroll-snap-type: x proximity;
+}
+
+.rail-track::-webkit-scrollbar{ height: 8px; }
+.rail-track::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius: 999px; }
+.rail-track::-webkit-scrollbar-track{ background: transparent; }
+
+.rail-track.is-wheeling{
+  scroll-snap-type: none;
+}
+
+
+/* Card */
+.card{
+  width: var(--card-size);
+  height: var(--card-size);
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.card-media{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.card-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* Hover overlay uses per-card CSS vars */
+.card-hover{
+  position: absolute;
+  inset: 0;
+  background: var(--hover-bg);
+  color: var(--hover-text);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.card-title,
+.card-meta{
+  transform: translateY(6px);
+  opacity: 0;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.card-title{
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.card-meta{
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hover-muted, currentColor);
+}
+
+@media (hover: hover) and (pointer: fine){
+  .card:hover .card-media img{ opacity: 0.08; transform: scale(1.04); }
+  .card:hover .card-hover{ opacity: 1; }
+  .card:hover .card-title,
+  .card:hover .card-meta{ transform: translateY(0); opacity: 1; }
+}
+
+#card-transition{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 0;
+  will-change: top, left, width, height, opacity;
+}
+
+#card-transition.is-active{ opacity: 1; }
+
+
+
+
+/* =========================
+   RESPONSIVE (tablet + mobile)
+   ========================= */
+
+@media (max-width: 1024px){
+
+  /* Sblocca lo scroll verticale */
+  body.home{ overflow: auto; }
+
+  .home-main{
+    height: auto;
+  }
+
+  /* Hero: non deve più "riempire" lo spazio sopra la rail */
+  .hero{
+    height: auto;
+    padding: 18px 20px 0; /* spazio sotto header fixed */
+  }
+
+  .hero-subtitle{
+    font-size: 12px;       /* leggermente più piccola */
+    line-height: 1;
+    margin-top: 6px;
+  }
+
+  /* Rail header: non fisso, così sparisce il "vuoto" */
+  .rail-header{
+    position: relative;
+    bottom: auto;
+    padding: 18px 20px 10px;
+    pointer-events: auto;
+  }
+
+  /* Rail: da fixed a normale flusso pagina */
+  .rail{
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    height: auto;
+    opacity: 1;
+    transition: none;
+    padding: 0 0 0;
+  }
+
+  /* Cards in verticale */
+  .rail-track{
+    flex-direction: column;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .card{
+    width: 100%;
+    height: auto;
+  }
+
+  .card-media{
+    aspect-ratio: 1 / 1; /* mantiene la tua logica quadrata */
+  }
+}

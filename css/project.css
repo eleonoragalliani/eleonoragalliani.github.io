@@ -1,0 +1,205 @@
+/* ===== PROJECT PAGE ===== */
+
+html, body{ overscroll-behavior-y: none; }
+
+/* Main layout: info | gallery */
+.project.page{
+  width: 100%;
+  margin: 0;
+  padding-top: var(--header-h);
+}
+
+.project-layout{
+  display: grid;
+  grid-template-columns: 0.77fr 1.23fr;
+  height: 100vh;
+  gap: 0;
+}
+
+/* INFO (left) stays fixed */
+.info{
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  padding: 68px 20px;
+  scrollbar-width: none;
+}
+.info::-webkit-scrollbar{ display: none; }
+
+.title{
+  margin: 0;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.meta{
+  margin: 8px 0 8px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.desc{
+  margin: 0 0 32px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.33;
+}
+
+.details{
+  margin: 0;
+}
+
+.details dt{
+  margin: 0;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.details dd{
+  margin: 2px 0 8px 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.details a{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.details a:hover{ opacity: 0.65; }
+
+
+/* PREVIOUS, NEXT */
+.project-nav{
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.77fr 1.23fr;
+  padding: 0 20px;
+  pointer-events: none;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+ .project-nav-inner{
+  grid-column: 1;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+.project-prev{
+  grid-column: 1;
+  justify-self: start;
+  pointer-events: auto;
+}
+
+.project-next{
+  grid-column: 1;
+  justify-self: end;
+  pointer-events: auto;
+  padding-right: 24px;
+}
+
+
+
+/* GALLERY (right) – no margins, no gaps */
+.media{
+  overflow-y: auto;     /* scroll SOLO qui */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+.media.is-visible{ opacity: 1; }
+
+.media-item{
+  width: 100%;
+  display: block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* wrapper come un'immagine */
+.media-item.video{
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* cambia se serve */
+  position: relative;
+}
+
+/* iframe riempie la colonna */
+.media-item.video iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+/* Back-to-home fade out */
+body.is-fading-out{ animation: fadeOut 180ms ease forwards; }
+@keyframes fadeOut{ from{ opacity: 1; } to{ opacity: 0; } }
+
+
+
+/* ===== Responsive ===== */
+@media (max-width: 900px){
+
+  /* layout a 1 colonna + pagina che scorre */
+  .project-layout{
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* info: non sticky, entra nel flow e scorre */
+  .info{
+    position: static !important;
+    top: auto !important;
+
+    height: auto;
+    overflow: visible;
+    padding: 24px 16px;
+  }
+
+  /* gallery: niente scroll interno, viene dopo info */
+  .media{
+    height: auto;
+    overflow: visible !important;
+
+    opacity: 1;
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 601px){
+  .title{ font-size: 28px; }
+  .desc{ font-size: 15px; line-height: 1.55; }
+}
+
+@media (max-width: 600px){
+  .title{ font-size: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .media{ opacity: 1; transition: none; }
+  body.is-fading-out{ animation: none; }
+}
+
