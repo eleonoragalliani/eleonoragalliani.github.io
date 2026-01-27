@@ -233,7 +233,6 @@ body.home{
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-snap-type: y proximity;
     padding: 0;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
@@ -243,6 +242,7 @@ body.home{
     width: 100%;
     height: auto;
     scroll-snap-align: start;
+    transition: none;
   }
 
   .card-media{
