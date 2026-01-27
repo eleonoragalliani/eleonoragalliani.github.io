@@ -177,41 +177,39 @@ body.home{
 
 
 
-
 /* =========================
    RESPONSIVE (tablet + mobile)
    ========================= */
 
-@media (max-width: 1024px){
+@media (max-width: 900px){
 
-  /* Sblocca lo scroll verticale */
+  /* Sblocca lo scroll verticale (desktop resta overflow:hidden) */
   body.home{ overflow: auto; }
 
-  .home-main{
-    height: auto;
-  }
+  .home-main{ height: auto; }
 
-  /* Hero: non deve più "riempire" lo spazio sopra la rail */
+  /* Hero: torna in flow e togliamo gli “spazi da desktop” */
   .hero{
     height: auto;
-    padding: 18px 20px 0; /* spazio sotto header fixed */
+    padding: 18px 20px 0;
   }
 
+  /* <p> ha margin di default: qui lo controlliamo noi */
   .hero-subtitle{
-    font-size: 12px;       /* leggermente più piccola */
-    line-height: 1;
-    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.1;
+    margin: 6px 0 32px;  /* <-- importante: elimina il vuoto enorme */
   }
 
-  /* Rail header: non fisso, così sparisce il "vuoto" */
+  /* “Selected works ↓” in flow e più vicino all’hero */
   .rail-header{
     position: relative;
     bottom: auto;
-    padding: 18px 20px 10px;
+    padding: 6px 20px 10px; /* <-- meno aria sopra */
     pointer-events: auto;
   }
 
-  /* Rail: da fixed a normale flusso pagina */
+  /* Rail: da fixed a flusso pagina */
   .rail{
     position: relative;
     left: auto;
@@ -220,14 +218,15 @@ body.home{
     height: auto;
     opacity: 1;
     transition: none;
-    padding: 0 0 0;
+    padding: 0 20px 24px;   /* <-- allinea alla hero + respiro sotto */
   }
 
-  /* Cards in verticale */
+  /* Cards una sotto l’altra */
   .rail-track{
     flex-direction: column;
     overflow: visible;
     scroll-snap-type: none;
+    padding-left: 0;        /* <-- niente peek in verticale */
   }
 
   .card{
@@ -236,6 +235,19 @@ body.home{
   }
 
   .card-media{
-    aspect-ratio: 1 / 1; /* mantiene la tua logica quadrata */
+    aspect-ratio: 1 / 1;
   }
 }
+
+/* Mobile: solo micro-typo/padding */
+@media (max-width: 600px){
+
+  .hero{ padding: 16px 16px 0; }
+
+  .rail-header{ padding: 6px 16px 10px; }
+
+  .rail{ padding: 0 0 0; }
+
+  .hero-subtitle{ font-size: 11px; }
+}
+
