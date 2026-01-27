@@ -4,17 +4,28 @@
   const gallery = document.querySelector('.media');
 
 if (gallery) {
-  window.addEventListener(
-    'wheel',
-    (e) => {
-      // ignora scroll orizzontale
-      if (e.shiftKey) return;
+  const gallery = document.querySelector('.media');
+const mqDesktop = window.matchMedia('(min-width: 901px) and (hover: hover) and (pointer: fine)');
 
-      gallery.scrollTop += e.deltaY;
-      e.preventDefault();
-    },
-    { passive: false }
-  );
+const onWheel = (e) => {
+  if (!gallery) return;
+  if (e.shiftKey) return;
+
+  gallery.scrollTop += e.deltaY;
+  e.preventDefault();
+};
+
+const syncWheel = () => {
+  window.removeEventListener('wheel', onWheel, { passive: false });
+
+  if (mqDesktop.matches && gallery) {
+    window.addEventListener('wheel', onWheel, { passive: false });
+  }
+};
+
+syncWheel();
+mqDesktop.addEventListener('change', syncWheel);
+
 }
 
   const revealAll = () => {

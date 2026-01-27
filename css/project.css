@@ -162,6 +162,7 @@ body.is-fading-out{ animation: fadeOut 180ms ease forwards; }
 /* ===== Responsive ===== */
 @media (max-width: 900px){
 
+
   /* layout a 1 colonna + pagina che scorre */
   .project-layout{
     grid-template-columns: 1fr;
@@ -169,14 +170,20 @@ body.is-fading-out{ animation: fadeOut 180ms ease forwards; }
     overflow: visible;
   }
 
+  .header{
+    background: var(--bg);   /* oppure #fff se preferisci */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
   /* info: non sticky, entra nel flow e scorre */
   .info{
     position: static !important;
     top: auto !important;
-
     height: auto;
     overflow: visible;
-    padding: 24px 16px;
+    padding: 60px 20px 20px;
   }
 
   /* gallery: niente scroll interno, viene dopo info */
