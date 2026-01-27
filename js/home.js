@@ -12,6 +12,7 @@
     setTimeout(revealAll, 120);
   });
 
+  
   // ===== Rail loop (native scroll) + global wheel (works anywhere on page) =====
   (() => {
     const rail = document.querySelector('.rail');         // ✅ lo scroller vero
