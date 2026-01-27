@@ -194,6 +194,41 @@ body.is-fading-out{ animation: fadeOut 180ms ease forwards; }
     opacity: 1;
     transition: none;
   }
+
+
+  /* ===== PROJECT NAV (mobile/tablet) ===== */
+  .project-nav{
+    position: static;
+    bottom: auto;
+    left: auto;
+
+    width: 100%;
+    display: block;          /* non più grid in mobile */
+    padding: 24px 16px 24px; /* allineato al padding mobile */
+    pointer-events: auto;    /* riattiva link */
+  }
+
+  .project-nav-inner{
+    width: 100%;             /* <-- QUESTA è la chiave */
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    grid-column: auto;       /* neutralizza la grid desktop */
+  }
+
+  .project-prev{
+    padding: 0;              /* evita offset desktop */
+  }
+
+  .project-next{
+    padding: 0;              /* evita offset desktop */
+  }
+
+
+
+
+
 }
 
 @media (max-width: 900px) and (min-width: 601px){
