@@ -75,6 +75,7 @@ body:is(.home, .about){
   --muted: rgba(3, 0, 154, 0.60);
 }
 
+
 /* Add BOTH classes on project pages: theme-project + theme-project-1 */
 body.theme-project-1{
   --page-bg: var(--p1-bg);
@@ -120,6 +121,13 @@ body.theme-project-10{
   --page-bg: var(--p10-bg);
   --page-text: var(--p10-text);
   --muted: var(--p10-muted);
+}
+
+/* ===== About theme (override) ===== */
+body.about{
+  --page-bg: rgb(6, 0, 169);                 
+  --page-text: rgb(186, 164, 253);               
+  --muted: rgba(186, 164, 253, 0.60);    
 }
 
 
