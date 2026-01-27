@@ -190,9 +190,14 @@ body.home{
 
   /* Hero: torna in flow e togliamo gli “spazi da desktop” */
   .hero{
-    height: auto;
-    padding: 18px 20px 0;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--page-bg);
+  height: auto;
+  padding: 18px 20px 10px;
+}
+
 
   /* <p> ha margin di default: qui lo controlliamo noi */
   .hero-subtitle{
@@ -203,35 +208,38 @@ body.home{
 
   /* “Selected works ↓” in flow e più vicino all’hero */
   .rail-header{
-    position: relative;
-    bottom: auto;
-    padding: 6px 20px 10px; /* <-- meno aria sopra */
-    pointer-events: auto;
+    position: sticky;
+    top: 0;
+    padding: 6px 0 10px;
+    background: var(--page-bg);
+    z-index: 6;
   }
 
   /* Rail: da fixed a flusso pagina */
   .rail{
-    position: relative;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    height: auto;
-    opacity: 1;
-    transition: none;
-    padding: 0 20px 24px;   /* <-- allinea alla hero + respiro sotto */
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 0 20px 24px;
+    background: var(--page-bg);
+    z-index: 5;
   }
 
   /* Cards una sotto l’altra */
   .rail-track{
+    height: calc(100vh - 44px); /* 44px circa header rail */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
     flex-direction: column;
-    overflow: visible;
-    scroll-snap-type: none;
-    padding-left: 0;        /* <-- niente peek in verticale */
+    gap: 16px;
+    padding: 0;
+    scroll-snap-type: y proximity;
   }
 
   .card{
     width: 100%;
-    height: auto;
+    scroll-snap-align: start;
   }
 
   .card-media{
