@@ -170,9 +170,9 @@ body.is-fading-out{ animation: fadeOut 180ms ease forwards; }
     overflow: visible;
   }
 
-  .header{
-    background: var(--bg);   /* oppure #fff se preferisci */
-    position: sticky;
+  .site-header{
+    background: var(--page-bg);   /* oppure #fff se preferisci */
+    position: fixed;
     top: 0;
     z-index: 10;
   }
