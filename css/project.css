@@ -20,7 +20,8 @@ html, body{ overscroll-behavior-y: none; }
 .info{
   position: sticky;
   top: 0;
-  overflow: hidden;
+  overflow: auto;
+  max-height: 100vh;
   padding: 68px 20px;
   scrollbar-width: none;
 }

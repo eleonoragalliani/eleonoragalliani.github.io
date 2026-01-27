@@ -1,51 +1,65 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const info = document.querySelector('.info');
   const gallery = document.querySelector('.media');
+  const mqDesktop = window.matchMedia('(min-width: 901px) and (hover: hover) and (pointer: fine)');
 
-if (gallery) {
-  const gallery = document.querySelector('.media');
-const mqDesktop = window.matchMedia('(min-width: 901px) and (hover: hover) and (pointer: fine)');
+  // ===== Desktop wheel: scrolla prima INFO (se in overflow), poi GALLERY =====
+  const canScroll = (el) => el && el.scrollHeight > el.clientHeight + 1;
+  const atTop = (el) => el.scrollTop <= 0;
+  const atBottom = (el) => el.scrollTop >= (el.scrollHeight - el.clientHeight - 1);
 
-const onWheel = (e) => {
-  if (!gallery) return;
-  if (e.shiftKey) return;
+  const onWheel = (e) => {
+    if (!info || !gallery) return;
+    if (e.shiftKey) return;
 
-  gallery.scrollTop += e.deltaY;
-  e.preventDefault();
-};
+    const delta = e.deltaY;
+    const goingDown = delta > 0;
+    const goingUp = delta < 0;
 
-const syncWheel = () => {
-  window.removeEventListener('wheel', onWheel, { passive: false });
+    // 1) prima INFO finché può scrollare
+    if (canScroll(info)) {
+      if ((goingDown && !atBottom(info)) || (goingUp && !atTop(info))) {
+        info.scrollTop += delta;
+        e.preventDefault();
+        return;
+      }
+    }
 
-  if (mqDesktop.matches && gallery) {
-    window.addEventListener('wheel', onWheel, { passive: false });
-  }
-};
+    // 2) poi GALLERY
+    gallery.scrollTop += delta;
+    e.preventDefault();
+  };
 
-syncWheel();
-mqDesktop.addEventListener('change', syncWheel);
+  const syncWheel = () => {
+    window.removeEventListener('wheel', onWheel, { passive: false });
 
-}
+    // attivo SOLO su desktop
+    if (mqDesktop.matches && info && gallery) {
+      window.addEventListener('wheel', onWheel, { passive: false });
+    }
+  };
 
+  syncWheel();
+  mqDesktop.addEventListener('change', syncWheel);
+
+  // ===== Reveal =====
   const revealAll = () => {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
-    const media = document.querySelector('.media');
-    if (media) media.classList.add('is-visible');
+    if (gallery) gallery.classList.add('is-visible');
   };
 
   window.addEventListener('load', () => {
     if (reduceMotion) return revealAll();
 
-    // Reveal text, then fade in the gallery (so it doesn't pop)
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
     setTimeout(() => {
-      const media = document.querySelector('.media');
-      if (media) media.classList.add('is-visible');
+      if (gallery) gallery.classList.add('is-visible');
     }, 160);
   });
 
-  // Exit animation back to home (opacity only)
+  // ===== Exit animation back to home =====
   document.querySelectorAll('[data-exit="home"]').forEach(link => {
     link.addEventListener('click', (e) => {
       if (reduceMotion) return;
