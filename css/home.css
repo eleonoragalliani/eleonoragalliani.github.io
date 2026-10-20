@@ -70,6 +70,8 @@ body.home{
   scroll-padding-left: var(--peek, 0px);
   opacity: 0;
   transition: opacity 500ms ease;
+    scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .rail.is-visible{ opacity: 1; }
@@ -79,12 +81,12 @@ body.home{
   display: flex;
   gap: 0;
   padding-left: var(--peek);
-  scroll-snap-type: x proximity;
+  scroll-snap-type: none;
 }
 
-.rail-track::-webkit-scrollbar{ height: 8px; }
-.rail-track::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius: 999px; }
-.rail-track::-webkit-scrollbar-track{ background: transparent; }
+.rail::-webkit-scrollbar {
+  display: none;
+}
 
 .rail-track.is-wheeling{
   scroll-snap-type: none;

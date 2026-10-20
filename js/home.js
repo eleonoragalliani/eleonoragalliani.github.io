@@ -4,6 +4,7 @@
   const revealAll = () => {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
     const rail = document.querySelector('.rail');
+
     if (rail) rail.classList.add('is-visible');
   };
 
@@ -18,6 +19,8 @@
     const rail = document.querySelector('.rail');         // ✅ lo scroller vero
     const track = document.querySelector('.rail-track');  // ✅ contenitore cards
     if (!rail || !track) return;
+
+    rail.style.scrollBehavior = 'auto';
 
     const originals = Array.from(track.children);
     if (originals.length === 0) return;
@@ -49,7 +52,7 @@
     const goToCenterBlock = () => {
       measure();
       setPeek();
-      rail.scrollLeft = oneLoopWidth + 1;
+      rail.scrollLeft = oneLoopWidth -200;
     };
 
       const setPeek = () => {
@@ -107,6 +110,49 @@
     };
 
     window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    
+    // ===== Movimento automatico lento: solo desktop =====
+    const desktopMotion = window.matchMedia(
+      '(min-width: 901px) and (hover: hover) and (pointer: fine)'
+    );
+
+    let animationId = null;
+    let lastTime = 0;
+    let pauseUntil = 0;
+
+    const AUTO_SPEED = 10; // pixel al secondo
+    const PAUSE_TIME = 0; // pausa dopo l'interazione, in millisecondi
+
+    
+
+const animateRail = () => {
+  animationId = requestAnimationFrame(animateRail);
+
+  if (!desktopMotion.matches || reduceMotion) return;
+  if (performance.now() < pauseUntil) return;
+
+  rail.scrollLeft += 1;
+  wrapIfNeeded();
+};
+
+
+
+    const pauseAutoScroll = () => {
+      pauseUntil = performance.now() + PAUSE_TIME;
+    };
+
+    rail.addEventListener('pointerdown', pauseAutoScroll, { passive: true });
+    rail.addEventListener('touchstart', pauseAutoScroll, { passive: true });
+
+    window.addEventListener('wheel', pauseAutoScroll, { passive: true, capture: true });
+
+    desktopMotion.addEventListener('change', () => {
+      lastTime = 0;
+    });
+
+    if (!reduceMotion) {
+      animationId = requestAnimationFrame(animateRail);
+    }
   })();
 
   // ===== Card → fullscreen transition =====
